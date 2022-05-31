@@ -1,2 +1,5 @@
 ## Tank Wars
-![Alt text](https://fv9-5.failiem.lv/thumb_show.php?i=m9g5vpdp2&view)
+It's a simple game created with Unity. 
+
+![](https://github.com/Martinson1252/TankWars_Unity/blob/main/TW1.png)
+![](https://github.com/Martinson1252/TankWars_Unity/blob/main/TW2.png)
