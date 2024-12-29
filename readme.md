@@ -1,5 +1,5 @@
 ## Tank Wars (Unfinished)
-It's a simple game created with Unity.   
+It's a simple android mobile game created with Unity.   
 Player has to eleminate all enemy tanks from the map, which are controlled by simple AI. 
 
 
