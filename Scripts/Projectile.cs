@@ -32,11 +32,11 @@ public class Projectile : MonoBehaviour,IHitable
     {
         if (count < 1 && colli.collider.gameObject.layer < 9)
         {
-            transform.rotation = Quaternion.LookRotation(Vector3.Reflect(rb.velocity, colli.contacts[0].normal), Vector3.up);
-            rb.velocity = Vector3.zero;
+            transform.rotation = Quaternion.LookRotation(Vector3.Reflect(rb.linearVelocity, colli.contacts[0].normal), Vector3.up);
+            rb.linearVelocity = Vector3.zero;
             rb.AddForce(transform.forward * force, ForceMode.VelocityChange);
             rb.angularVelocity = Vector3.zero;
-            rb.angularDrag = 0;
+            rb.angularDamping = 0;
             count++;
             
         }else
@@ -47,17 +47,15 @@ public class Projectile : MonoBehaviour,IHitable
                 colli.collider.GetComponent<IHitable>().Hit(-12);
                 Rigidbody r = colli.collider.GetComponent<Rigidbody>();
                 r.angularVelocity = Vector3.zero;
-                r.angularDrag = 0;
-                r.velocity = Vector3.zero;
+                r.angularDamping = 0;
+                r.linearVelocity = Vector3.zero;
             }
             explosionParticles.transform.parent = null;
             explosionParticles.Play();
             explosionAudio.Play();
             Destroy(gameObject);
         }
-/*
-        
-*/
+
 
     }
 

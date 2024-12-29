@@ -7,6 +7,10 @@ public class DeathScreen : MonoBehaviour
 {
     Button restartB, backB;
 
+    private void OnEnable()
+    {
+        SetButtons();
+    }
 
     private void Start()
     {

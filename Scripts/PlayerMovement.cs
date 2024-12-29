@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
-    public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
     {
         public ControlCamera cam;
         public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
@@ -10,8 +11,9 @@
         public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
         public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
         public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
-        public Vector3 movement,overallMovement;
-
+        public Vector3 movement;
+        public Vector3 overallMovement;
+        //public InputActionReference playerInput; 
         private string m_MovementAxisName;          // The name of the input axis for moving forward and back.
         private string m_TurnAxisName;              // The name of the input axis for turning.
         public Rigidbody rb;              // Reference used to move the tank.
@@ -22,7 +24,7 @@
 
         private void Awake()
         {
-
+            //playerInput= gameObject.GetComponent<InputActionReference>();
             rb = GetComponent<Rigidbody>();
         }
 
@@ -72,10 +74,13 @@
 
         private void Update()
         {
+        //Debug.Log(playerInput.action.ReadValue<Vector2>().y);
             // Store the value of both input axes.
             m_MovementInputValue = SimpleInput.GetAxis(m_MovementAxisName);
             m_TurnInputValue = SimpleInput.GetAxis(m_TurnAxisName);
-            overallMovement = new Vector3(m_TurnInputValue, 0, m_MovementInputValue);
+            //m_MovementInputValue = playerInput.action.ReadValue<Vector2>().y;
+            //m_TurnInputValue = playerInput.action.ReadValue<Vector2>().x;
+        overallMovement = new Vector3(m_TurnInputValue, 0, m_MovementInputValue);
             EngineAudio();
         }
 
@@ -145,12 +150,16 @@
 
         private void NewMove()
         {
+        Quaternion rotat = new Quaternion();
         //overallMovement.Normalize();
-        Quaternion rotat = Quaternion.LookRotation(overallMovement, Vector3.up);
-        rb.AddForce(overallMovement * m_Speed*Time.deltaTime, ForceMode.VelocityChange);
-        rb.velocity = Vector3.Lerp( transform.position,overallMovement*m_Speed,12);
-        //transform.Translate(overallMovement*m_Speed*Time.deltaTime,Space.World);
         if (overallMovement.magnitude > 0)
+        {
+           rotat = Quaternion.LookRotation(overallMovement, Vector3.up);
+        }
+        rb.AddForce(overallMovement * m_Speed*Time.deltaTime, ForceMode.VelocityChange);
+        rb.linearVelocity = Vector3.Lerp( transform.position,overallMovement*m_Speed,12);
+        //transform.Translate(overallMovement*m_Speed*Time.deltaTime,Space.World);
+        if (overallMovement.magnitude > float.Epsilon)
             rb.rotation = rotat;
                 //transform.rotation = Quaternion.RotateTowards(transform.rotation, rotat, m_TurnSpeed);
         }

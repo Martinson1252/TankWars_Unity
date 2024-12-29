@@ -18,6 +18,7 @@ public class EnemyTank : MonoBehaviour
 	public bool exit;
 	public LayerMask Targetlayer;
     public NavMeshAgent agent;
+	public AudioSource shotAudio;
 	//public delegate void Fixed_Action(NavMeshAgent agent,Transform t);
 
     Vector3 dir;
@@ -65,6 +66,7 @@ public class EnemyTank : MonoBehaviour
 			SHELL.transform.position = firepoint.position;
 			SHELL.transform.rotation = turrent.transform.rotation;
 			SHELL.GetComponent<Rigidbody>().AddForce(turrent.transform.forward * 22, ForceMode.VelocityChange);
+			shotAudio.Play();
 			await Task.Yield();
 			
 		}
@@ -104,6 +106,7 @@ public class EnemyTank : MonoBehaviour
 				RaycastHit t;
 				Physics.Raycast(turrent.position, turrent.forward, out t, range_radius);
 				
+					if(t.collider != null)
 				if (t.collider.CompareTag("Player")&&Wait())
 				{
 					exit = false;

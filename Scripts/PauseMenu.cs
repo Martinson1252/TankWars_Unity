@@ -6,12 +6,21 @@ using UnityEngine.UIElements;
 public class PauseMenu : BasicGamePlayFunctionality
 {
     Button resume, quit;
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
+        Time.timeScale = 0;
         SetButtons();
     }
 
+    // Start is called before the first frame update
+    //void Start()
+    //{
+    //    Time.timeScale = 0;
+    //    SetButtons();
+    //}
+
+    
 
     public void SetButtons()
     {
@@ -24,6 +33,7 @@ public class PauseMenu : BasicGamePlayFunctionality
 
     void Resume()
     {
+        Time.timeScale = 1;
         SetButtons();
         gameObject.SetActive(false);
     }
